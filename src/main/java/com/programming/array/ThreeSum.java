@@ -3,8 +3,6 @@ package com.programming.array;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class ThreeSum {
     public static void main(String[] args) {
@@ -20,13 +18,16 @@ public class ThreeSum {
 
     private static void threeSum(int[] arr, int target, int n) {
         Arrays.sort(arr);
+
         for (int i = 0; i < n; i++) {
-            int newTarget = target - arr[i];
             int j = i + 1;
             int k = n - 1;
 
+            int newTarget = target - arr[i];
+
             while (j < k) {
-                if (arr[j] + arr[k] == newTarget) {
+                int sum = arr[j] + arr[k];
+                if (sum == newTarget) {
                     System.out.println(arr[i] + " " + arr[j] + " " + arr[k]);
                     while (j < k && arr[j] == arr[j + 1]) {
                         j++;
@@ -36,14 +37,14 @@ public class ThreeSum {
                     }
                     j++;
                     k--;
-                } else if (arr[j] + arr[k] < newTarget) {
+                } else if (sum < newTarget) {
                     j++;
                 } else {
                     k--;
                 }
             }
-        }
 
+        }
     }
 
     /**
@@ -55,26 +56,28 @@ public class ThreeSum {
     private static void threeSumBruce(int[] arr, int target) {
 
         Set<String> set = new HashSet<>();
-
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr.length; j++) {
                 for (int k = 0; k < arr.length; k++) {
                     if (i == j || j == k || i == k) {
                         continue;
                     }
+
+                    int value = arr[i] + arr[j] + arr[k];
+
                     int[] triplet = {arr[i], arr[j], arr[k]};
                     Arrays.sort(triplet);
-                    String sortedValue = triplet[0] + "" + triplet[1] + "" + triplet[2];
-                    if (arr[i] + arr[j] + arr[k] == target && !set.contains(sortedValue)) {
+                    String key = triplet[0] + "" + triplet[1] + "" + triplet[2];
+                    if (value == target && !set.contains(key)) {
                         System.out.println(arr[i] + " " + arr[j] + " " + arr[k]);
-                        set.add(sortedValue);
                     }
+
+                    set.add(arr[i] + "" + arr[j] + "" + arr[k]);
 
 
                 }
             }
         }
-
 
     }
 }
