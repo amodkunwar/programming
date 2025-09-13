@@ -1,32 +1,40 @@
 package com.programming.string;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class LongestSubString {
     public static void main(String[] args) {
-        String str = "abcabcdebb";
-        String longestSubString = "";
-        Map<Character, Integer> map = new HashMap<>();
-        int longest = 0;
-        int start = 0;
-        for (int end = 0; end < str.length(); end++) {
-            char c = str.charAt(end);
-            if (map.containsKey(c) && map.get(c) >= start) {
-                start = map.get(c) + 1;
+        String s = "abcdeabcdbb";
+
+        Set<Character> set = new HashSet<>();
+
+        int window = 0;
+        int left = 0;
+        int right = 0;
+        int left_start = 0;
+        while (right < s.length()) {
+            char current = s.charAt(right);
+            while (set.contains(current)) {
+                set.remove(current);
+                left++;
             }
 
-            map.put(c, end);
-
-            int window = end - start + 1;
-
-            if (window > longest) {
-                longest = window;
-                longestSubString = str.substring(start, end + 1);
+            if (right - left + 1 > window) {
+                window = right - left + 1;
+                left_start = left;
             }
+
+
+            set.add(current);
+            right++;
+
         }
 
-        System.out.println("Longest window " + longest);
-        System.out.println("Longest substring " + longestSubString);
+        System.out.println(s.substring(left_start, left_start + window));
+        System.out.println("window: " + window);
+
     }
 }
