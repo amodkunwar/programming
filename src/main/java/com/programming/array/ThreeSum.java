@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+// Write a program to find all unique triplets in the array which gives the sum of zero. Input: nums = [-1,0,1,2,-1,-4] Output: [[-1,-1,2],[-1,0,1]]
+
 public class ThreeSum {
     public static void main(String[] args) {
         int[] arr = {7, -6, 3, 8, -1, 8, -11};
@@ -20,27 +22,31 @@ public class ThreeSum {
         Arrays.sort(arr);
 
         for (int i = 0; i < n; i++) {
-            int j = i + 1;
-            int k = n - 1;
 
-            int newTarget = target - arr[i];
+            if (i == 0 || arr[i] != arr[i - 1]) {
 
-            while (j < k) {
-                int sum = arr[j] + arr[k];
-                if (sum == newTarget) {
-                    System.out.println(arr[i] + " " + arr[j] + " " + arr[k]);
-                    while (j < k && arr[j] == arr[j + 1]) {
+                int j = i + 1;
+                int k = n - 1;
+
+                int newTarget = target - arr[i];
+
+                while (j < k) {
+                    int sum = arr[j] + arr[k];
+                    if (sum == newTarget) {
+                        System.out.println(arr[i] + " " + arr[j] + " " + arr[k]);
+                        while (j < k && arr[j] == arr[j + 1]) {
+                            j++;
+                        }
+                        while (j < k && arr[k] == arr[k - 1]) {
+                            k--;
+                        }
                         j++;
-                    }
-                    while (j < k && arr[k] == arr[k - 1]) {
+                        k--;
+                    } else if (sum < newTarget) {
+                        j++;
+                    } else {
                         k--;
                     }
-                    j++;
-                    k--;
-                } else if (sum < newTarget) {
-                    j++;
-                } else {
-                    k--;
                 }
             }
 
